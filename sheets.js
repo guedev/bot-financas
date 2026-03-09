@@ -24,7 +24,8 @@ async function addRow(row) {
 async function getAllRows() {
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: SPREADSHEET_ID,
-    range: "Lancamentos!A:J",
+    range: "Lancamentos!A:K",
+    valueRenderOption: "UNFORMATTED_VALUE",
   });
 
   return response.data.values || [];
