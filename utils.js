@@ -29,4 +29,9 @@ function gerarFaturas(primeiraFatura, totalParcelas) {
   return faturas;
 }
 
+function parseBRL(v) {
+  if (!v) return 0;
+  return Number(String(v).replace(".", "").replace(",", ".")) || 0;
+}
+
 module.exports = { gerarParcelas, gerarFaturas };

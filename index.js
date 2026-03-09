@@ -298,23 +298,26 @@ bot.command("faturadetalhada", async (ctx) => {
 
   dataRows.forEach((row) => {
 
-    const nome = String(row[1]).trim().toLowerCase();
+    const nome = row[1];
     const descricao = row[3];
-    const valor = parseFloat(row[4]);
+    const valor = parseBRL(row[4]);
     const parcela = row[5];
-    const totalParcelas = row[6];
-    const fatura = String(row[7]).trim();
-    const venc = parseInt(row[8]);
-    const status = String(row[9]).trim();
+    const totalParcelas = parseBRL(row[6]);
+    const fatura = row[7];
+    const venc = row[8];
+    const status = row[9];
 
-    const pessoaInput = pessoa.trim().toLowerCase();
-    const mesInput = mes.trim();
-    const vencInput = parseInt(vencimento);
+    if (
+      nome?.toLowerCase() === pessoa.toLowerCase() &&
+      fatura === mes &&
+      venc === vencimento &&
+      status === "Aberto"
+    ) {
 
-    if (String(row[1]).trim().toLowerCase() === pessoa.trim().toLowerCase() && String(row[7]).trim() === mes.trim() && Number(row[8]) === Number(vencimento) && String(row[9]).trim() === "Aberto") {
       total += valor;
 
       resposta += `• ${descricao} (${parcela}/${totalParcelas}) — R$ ${valor.toFixed(2)}\n`;
+
     }
 
   });
