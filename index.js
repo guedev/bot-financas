@@ -311,12 +311,7 @@ bot.command("faturadetalhada", async (ctx) => {
     const mesInput = mes.trim();
     const vencInput = parseInt(vencimento);
 
-    if (
-      nome === pessoaInput &&
-      fatura === mesInput &&
-      venc === vencInput &&
-      status === "Aberto"
-    ) {
+    if (String(row[1]).trim().toLowerCase() === pessoa.trim().toLowerCase() && String(row[7]).trim() === mes.trim() && Number(row[8]) === Number(vencimento) && String(row[9]).trim() === "Aberto") {
       total += valor;
 
       resposta += `• ${descricao} (${parcela}/${totalParcelas}) — R$ ${valor.toFixed(2)}\n`;
