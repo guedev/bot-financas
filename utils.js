@@ -34,4 +34,4 @@ function parseBRL(v) {
   return Number(String(v).replace(".", "").replace(",", ".")) || 0;
 }
 
-module.exports = { gerarParcelas, gerarFaturas };
+module.exports = { gerarParcelas, gerarFaturas, parseBRL };

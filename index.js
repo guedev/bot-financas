@@ -2,7 +2,7 @@ require("dotenv").config();
 const { Telegraf } = require("telegraf");
 const dayjs = require("dayjs");
 const { addRow, getAllRows } = require("./sheets");
-const { gerarParcelas, gerarFaturas } = require("./utils");
+const { gerarParcelas, gerarFaturas, parseBRL } = require("./utils");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const usuariosAutenticados = {};
