@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { Telegraf } = require("telegraf");
 const dayjs = require("dayjs");
-const { addRow, getAllRows } = require("./sheets");
+const { addRow, getAllRows, updateStatus } = require("./sheets");
 const { gerarParcelas, gerarFaturas, parseBRL } = require("./utils");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -330,6 +330,57 @@ bot.command("faturadetalhada", async (ctx) => {
 
   ctx.reply(resposta);
 
+});
+
+// Marcar como paga as faturas
+bot.command("pagarfatura", async (ctx) => {
+  const userId = ctx.from.id;
+
+  if (!isAutenticado(userId)) {
+    return ctx.reply("🔒 Use /login SUA_SENHA para acessar.");
+  }
+
+  const args = ctx.message.text.split(" ");
+  const pessoa = args[1];
+  const mes = args[2];
+  const vencimento = args[3];
+
+  if (!pessoa || !mes || !vencimento) {
+    return ctx.reply("Use: /pagarfatura NOME YYYY-MM VENCIMENTO");
+  }
+
+  const dataRows = await getAllRows();
+  let total = 0;
+
+  for (let i = 0; i < dataRows.length; i++) {
+
+    const row = dataRows[i];
+
+    const nome = row[1];
+    const fatura = row[7];
+    const venc = row[8];
+    const valor = parseBRL(row[4]);
+    const status = row[9];
+
+    if (
+      nome?.toLowerCase() === pessoa.toLowerCase() &&
+      fatura === mes &&
+      venc === vencimento &&
+      status === "Aberto"
+    ) {
+
+      await updateStatus(i + 1, "Pago");
+      total += valor;
+
+    }
+
+  }
+
+  if (total === 0) {
+    return ctx.reply("❌ Nenhuma fatura encontrada para atualizar.");
+  }
+
+  return ctx.reply(`✅ Fatura marcada como paga.`);
 });
 
 bot.on("text", async (ctx) => {

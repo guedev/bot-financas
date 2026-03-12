@@ -33,7 +33,7 @@ async function getAllRows() {
 async function updateStatus(rowIndex, status) {
   await sheets.spreadsheets.values.update({
     spreadsheetId: SPREADSHEET_ID,
-    range: `Lancamentos!I${rowIndex}`,
+    range: `Lancamentos!J${rowIndex}`,
     valueInputOption: "USER_ENTERED",
     requestBody: {
       values: [[status]],
