@@ -154,6 +154,12 @@ Fatura detalhada por pessoa e vencimento
 /faturadetalhada NOME YYYY-MM VENCIMENTO
 ```
 
+Alterar status do gasto por pessoa e vencimento
+
+```bash
+/pagarfatura NOME YYYY-MM VENCIMENTO
+```
+
 # Segurança
 
 O bot possui duas camadas de segurança.
